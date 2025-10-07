@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Restaurant - PeleFood</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e67e22;
+        }
+        .step h3 {
+            color: #e67e22;
+            margin-bottom: 10px;
+        }
+        .step p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .btn {
+            background: #e67e22;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #e67e22;
+        }
+        .hidden {
+            display: none;
+        }
+        .plan-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .plan-card:hover {
+            border-color: #e67e22;
+            transform: translateY(-2px);
+        }
+        .plan-card.selected {
+            border-color: #e67e22;
+            background: #fff5f0;
+        }
+        .plan-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e67e22;
+            margin: 10px 0;
+        }
+        .features {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .features li:before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Étape 1: Bienvenue -->
+        <div id="step1" class="step">
+            <div class="logo">🏪</div>
+            <h1>Bienvenue sur PeleFood !</h1>
+            <p class="subtitle">Votre compte restaurant a été créé avec succès</p>
+            <div class="success">
+                ✅ <strong>Félicitations !</strong> Vous pouvez maintenant configurer votre restaurant.
+            </div>
+            <button class="btn" onclick="nextStep()">Commencer la configuration</button>
+        </div>
+
+        <!-- Étape 2: Création du restaurant -->
+        <div id="step2" class="step hidden">
+            <h3>📝 Informations du Restaurant</h3>
+            <p>Remplissez les informations de base de votre restaurant</p>
+            
+            <form id="restaurantForm">
+                <div class="form-group">
+                    <label for="restaurantName">Nom du Restaurant *</label>
+                    <input type="text" id="restaurantName" name="restaurantName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="restaurantDescription">Description</label>
+                    <textarea id="restaurantDescription" name="restaurantDescription" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="restaurantAddress">Adresse *</label>
+                    <input type="text" id="restaurantAddress" name="restaurantAddress" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="restaurantPhone">Téléphone *</label>
+                    <input type="tel" id="restaurantPhone" name="restaurantPhone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cuisineType">Type de Cuisine</label>
+                    <select id="cuisineType" name="cuisineType">
+                        <option value="">Sélectionner...</option>
+                        <option value="africaine">Africaine</option>
+                        <option value="europeenne">Européenne</option>
+                        <option value="asiatique">Asiatique</option>
+                        <option value="americaine">Américaine</option>
+                        <option value="mixte">Mixte</option>
+                    </select>
+                </div>
+                
+                <button type="button" class="btn" onclick="saveRestaurant()">Enregistrer le Restaurant</button>
+            </form>
+        </div>
+
+        <!-- Étape 3: Sélection du plan -->
+        <div id="step3" class="step hidden">
+            <h3>📋 Choisissez votre Plan</h3>
+            <p>Sélectionnez le plan d'abonnement qui correspond à vos besoins</p>
+            
+            <div class="plan-card" data-plan="basic" onclick="selectPlan('basic')">
+                <h4>Plan Basique</h4>
+                <div class="plan-price">5,000 FCFA/mois</div>
+                <ul class="features">
+                    <li>Jusqu'à 50 produits</li>
+                    <li>Gestion des commandes</li>
+                    <li>Support email</li>
+                    <li>Statistiques de base</li>
+                </ul>
+            </div>
+            
+            <div class="plan-card" data-plan="premium" onclick="selectPlan('premium')">
+                <h4>Plan Premium</h4>
+                <div class="plan-price">15,000 FCFA/mois</div>
+                <ul class="features">
+                    <li>Jusqu'à 200 produits</li>
+                    <li>Gestion avancée des commandes</li>
+                    <li>Support prioritaire</li>
+                    <li>Statistiques détaillées</li>
+                    <li>Intégration paiement</li>
+                </ul>
+            </div>
+            
+            <div class="plan-card" data-plan="enterprise" onclick="selectPlan('enterprise')">
+                <h4>Plan Entreprise</h4>
+                <div class="plan-price">30,000 FCFA/mois</div>
+                <ul class="features">
+                    <li>Produits illimités</li>
+                    <li>Gestion multi-restaurants</li>
+                    <li>Support 24/7</li>
+                    <li>Analytics avancés</li>
+                    <li>API personnalisée</li>
+                    <li>Formation incluse</li>
+                </ul>
+            </div>
+            
+            <button id="confirmPlan" class="btn" onclick="confirmPlan()" disabled>Sélectionner le Plan</button>
+        </div>
+
+        <!-- Étape 4: Finalisation -->
+        <div id="step4" class="step hidden">
+            <div class="logo">🎉</div>
+            <h1>Configuration Terminée !</h1>
+            <div class="success">
+                ✅ <strong>Félicitations !</strong> Votre restaurant est maintenant configuré et prêt à recevoir des commandes.
+            </div>
+            <p>Vous allez être redirigé vers votre tableau de bord dans quelques secondes...</p>
+            <button class="btn" onclick="goToDashboard()">Accéder au Tableau de Bord</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedPlan = null;
+        let restaurantData = {};
+
+        function nextStep() {
+            document.getElementById('step' + currentStep).classList.add('hidden');
+            currentStep++;
+            document.getElementById('step' + currentStep).classList.remove('hidden');
+        }
+
+        function saveRestaurant() {
+            // Récupérer les données du formulaire
+            const form = document.getElementById('restaurantForm');
+            const formData = new FormData(form);
+            
+            restaurantData = {
+                name: formData.get('restaurantName'),
+                description: formData.get('restaurantDescription'),
+                address: formData.get('restaurantAddress'),
+                phone: formData.get('restaurantPhone'),
+                cuisineType: formData.get('cuisineType')
+            };
+            
+            // Simuler la sauvegarde
+            console.log('Restaurant data:', restaurantData);
+            
+            // Passer à l'étape suivante
+            nextStep();
+        }
+
+        function selectPlan(plan) {
+            // Retirer la sélection précédente
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Sélectionner le plan actuel
+            document.querySelector(`[data-plan="${plan}"]`).classList.add('selected');
+            selectedPlan = plan;
+            
+            // Activer le bouton
+            document.getElementById('confirmPlan').disabled = false;
+        }
+
+        function confirmPlan() {
+            if (!selectedPlan) return;
+            
+            // Simuler la sélection du plan
+            console.log('Selected plan:', selectedPlan);
+            
+            // Passer à l'étape suivante
+            nextStep();
+        }
+
+        function goToDashboard() {
+            // Rediriger vers le dashboard
+            window.location.href = '/restaurant/dashboard';
+        }
+
+        // Auto-redirection après 5 secondes à la dernière étape
+        function autoRedirect() {
+            if (currentStep === 4) {
+                setTimeout(() => {
+                    goToDashboard();
+                }, 5000);
+            }
+        }
+
+        // Démarrer l'auto-redirection quand on arrive à l'étape 4
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (currentStep === 4) {
+                        autoRedirect();
+                    }
+                }
+            });
+        });
+
+        // Observer les changements de classe
+        document.querySelectorAll('.step').forEach(step => {
+            observer.observe(step, { attributes: true });
+        });
+    </script>
+</body>
+</html>
